@@ -3,16 +3,13 @@ import { Stage, Layer } from 'react-konva';
 import { CustomLine as Line } from './Components/Line';
 
 const lineType = {
-  default: [0,0,100,100],
-  arrow: [0,0,100,100,70,100,100,100,100,70,100,100]
+  default: [0,0,100,0],
+  arrow: [0,0,100,0,70,30,100,0,70,-30,100,0]
 }
 
 const initialLine = {
   x: 10,
   y: 10,
-  width: 100,
-  height: 100,
-  strokeWidth: 2,
   stroke: 'black',
 };
 
