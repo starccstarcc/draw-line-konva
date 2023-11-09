@@ -12,6 +12,7 @@ export const CustomLine = ({ shapeProps, isSelected, onSelect, onChange }) => {
       updateAnchorsPosition();
       setInitialLoad(false)
     }
+    // eslint-disable-next-line
   }, [isSelected, shapeProps]);
 
   const updateAnchorsPosition = () => {
