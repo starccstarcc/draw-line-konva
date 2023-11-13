@@ -4,7 +4,7 @@ import { CustomLine as Line } from './Components/Line';
 
 const lineType = {
   default: [0,0,100,0],
-  arrow: [0,0,100,0,70,30,100,0,70,-30,100,0]
+  arrow: [0,0,100,0,95,5,100,0,95,-5,100,0]
 }
 
 const initialLine = {
@@ -29,7 +29,6 @@ const App = () => {
 
   const handleClick = (type) => {
     const tempLines = [...lines]
-    console.log(lineCount)
     tempLines.push({
       ...initialLine,
       id: 'line' + lineCount,
