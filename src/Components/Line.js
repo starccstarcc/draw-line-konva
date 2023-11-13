@@ -59,14 +59,24 @@ export const CustomLine = ({ shapeProps, isSelected, onSelect, onChange }) => {
     // Find the opposite anchor to stay in place
     const fixedAnchor = anchorRef === startAnchorRef.current ? endAnchorRef.current : startAnchorRef.current;
     const fixedPoint = [fixedAnchor.x() + 5, fixedAnchor.y() + 5]; // Adjust for anchor centering
-    
-    const newPoints = anchorRef === startAnchorRef.current
-      ? [mousePointTo.x + 5, mousePointTo.y + 5, fixedPoint[0], fixedPoint[1]] // Adjust for anchor centering
-      : [fixedPoint[0], fixedPoint[1], mousePointTo.x + 5, mousePointTo.y + 5]; // Adjust for anchor centering
-    // Update the line points
+
+    let newPoints = anchorRef === startAnchorRef.current
+      ? [mousePointTo.x, mousePointTo.y, fixedPoint[0], fixedPoint[1]] // Adjust for anchor centering
+      : [fixedPoint[0], fixedPoint[1], mousePointTo.x, mousePointTo.y]; // Adjust for anchor centering
+    if(shapeProps.type === "arrow")
+    newPoints = calculateArrowPoints(...newPoints)
+
+    const [startX, startY, endX, endY] = newPoints;
+    const {x, y} = shapeProps
+    // Adjust anchor positions to center them on the line ends
+    startAnchorRef.current.position({ x: initialLoad? startX - 5 + x : startX - 5, y: initialLoad ? startY - 5 + y : startY - 5 });
+    endAnchorRef.current.position({ x: initialLoad? endX - 5 + x : endX - 5, y: initialLoad ? endY - 5 + y : endY - 5 });
+    startAnchorRef.current.getLayer().batchDraw();
+    endAnchorRef.current.getLayer().batchDraw();
+
     onChange({
       ...shapeProps,
-      points: shapeProps.type === "default" ?  newPoints : [...calculateArrowPoints(...newPoints)],
+      points: newPoints
     });
   };
 
@@ -86,7 +96,7 @@ export const CustomLine = ({ shapeProps, isSelected, onSelect, onChange }) => {
     });
   };
 
-  const handleLIneDragoMove = (e) => {
+  const handleLineDragoMove = (e) => {
     if (isSelected) {
       const lineNode = shapeRef.current;
       const newPoints = lineNode.points().map((point, index) => {
@@ -113,7 +123,7 @@ export const CustomLine = ({ shapeProps, isSelected, onSelect, onChange }) => {
         {...shapeProps}
         draggable
         onDragEnd={handleLineDragEnd}
-        onDragMove={handleLIneDragoMove}
+        onDragMove={handleLineDragoMove}
       />
       {isSelected && (
         <>
