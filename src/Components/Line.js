@@ -18,6 +18,7 @@ export const CustomLine = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const updateAnchorsPosition = () => {
     // Use the points from shapeProps to position the anchors
     const [startX, startY, endX, endY] = shapeProps.points;
+    console.log(startX, startY, endX, endY)
     const {x, y} = shapeProps
     // Adjust anchor positions to center them on the line ends
     startAnchorRef.current.position({ x: initialLoad? startX - 5 + x : startX - 5, y: initialLoad ? startY - 5 + y : startY - 5 });
@@ -78,6 +79,10 @@ export const CustomLine = ({ shapeProps, isSelected, onSelect, onChange }) => {
 
     // Batch draw to update the stage
     shapeRef.current.getLayer().batchDraw();
+    onChange({
+      ...shapeProps,
+      points: newPoints,
+    });
   };
 
   const handleLineDragEnd = (e) => {
